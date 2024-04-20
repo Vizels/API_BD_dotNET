@@ -10,8 +10,12 @@ namespace API_BD
         static async Task Main(string[] args)
         {
             API testAPI = new API();
-            Song test1 = await testAPI.GetSong("Metallica", "Here comes revenge");
-            Console.Write(test1);
+            //Song test1 = await testAPI.GetSong("Metallica", "Fuel");
+            SongBase db = new SongBase();
+            Song test = db.songs.Where(s => s.title == "Fuel").First();
+            //db.songs.Add(test1);
+            //db.SaveChanges();
+            Console.WriteLine(test);
         }
     }
 
@@ -25,11 +29,9 @@ namespace API_BD
                 {
                     string URL = $"https://api.lyrics.ovh/v1/{author}/{title}";
                     string response = await httpClient.GetStringAsync(URL);
-                    Song song = JsonSerializer.Deserialize<Song>(response);
-                    song.author = author;
-                    song.title = title;
-                    song.lyrics = song.lyrics.Substring(song.lyrics.IndexOf('\n') + 1, song.lyrics.Length - song.lyrics.IndexOf('\n') - 1);
-
+                    Lyrics lyrics = JsonSerializer.Deserialize<Lyrics>(response);
+                    
+                    Song song = new Song(author, title, lyrics.lyrics);
                     return song;
                 }
                 catch (HttpRequestException e)
