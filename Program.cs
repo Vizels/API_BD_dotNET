@@ -1,7 +1,9 @@
 ﻿using System.Collections.Frozen;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using static System.Net.WebRequestMethods;
+[assembly:InternalsVisibleTo("API_DB_GUI")]
 
 namespace API_BD
 {
@@ -12,7 +14,7 @@ namespace API_BD
             API testAPI = new API();
             //Song test1 = await testAPI.GetSong("Metallica", "Fuel");
             SongBase db = new SongBase();
-            Song test = db.songs.Where(s => s.title == "Fuel").First();
+            Song test = db.songs.Where(s => s.title == "Fsuel").First();
             //db.songs.Add(test1);
             //db.SaveChanges();
             Console.WriteLine(test);
@@ -39,7 +41,7 @@ namespace API_BD
                     Console.WriteLine($"Error: {e.Message}");
                 }
             }
-            return null;
+            return new Song("", "", "Lyrics not found");
         }
     }
 }
