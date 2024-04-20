@@ -7,7 +7,17 @@ namespace API_BD
 {
     internal class Program
     {
-        static async Task<Song> GetSong(string author, string title)
+        static async Task Main(string[] args)
+        {
+            API testAPI = new API();
+            Song test1 = await testAPI.GetSong("Metallica", "Here comes revenge");
+            Console.Write(test1);
+        }
+    }
+
+    public class API
+    {
+        public async Task<Song> GetSong(string author, string title)
         {
             using (var httpClient = new HttpClient())
             {
@@ -19,10 +29,10 @@ namespace API_BD
                     Song song = JsonSerializer.Deserialize<Song>(response);
                     song.author = author;
                     song.title = title;
-                    song.lyrics = song.lyrics.Substring(song.lyrics.IndexOf('\n') + 1, song.lyrics.Length - song.lyrics.IndexOf('\n')-1);
+                    song.lyrics = song.lyrics.Substring(song.lyrics.IndexOf('\n') + 1, song.lyrics.Length - song.lyrics.IndexOf('\n') - 1);
 
                     //Console.WriteLine("Response:");
-                    //Console.WriteLine(responseBody);
+                    //Console.WriteLine(response);
                     //Console.WriteLine(song.ToString());
                     return song;
                 }
@@ -30,16 +40,12 @@ namespace API_BD
                 {
                     Console.WriteLine($"Error: {e.Message}");
                 }
-                
+
 
             }
 
             return null;
-        }
-
-        static void Main(string[] args)
-        {
-            Song test1 = GetSong("Metallica", "Here comes revenge").Wait();
+            //return new Song();
         }
     }
 }

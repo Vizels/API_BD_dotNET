@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace API_BD
 {
-    internal class Song
+    public class Song
     {
         public string title { get; set; }
         public string author { get; set; }
