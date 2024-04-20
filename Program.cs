@@ -25,27 +25,19 @@ namespace API_BD
                 {
                     string URL = $"https://api.lyrics.ovh/v1/{author}/{title}";
                     string response = await httpClient.GetStringAsync(URL);
-                    //string responseBody = await response.Content.ReadAsStringAsync();
                     Song song = JsonSerializer.Deserialize<Song>(response);
                     song.author = author;
                     song.title = title;
                     song.lyrics = song.lyrics.Substring(song.lyrics.IndexOf('\n') + 1, song.lyrics.Length - song.lyrics.IndexOf('\n') - 1);
 
-                    //Console.WriteLine("Response:");
-                    //Console.WriteLine(response);
-                    //Console.WriteLine(song.ToString());
                     return song;
                 }
                 catch (HttpRequestException e)
                 {
                     Console.WriteLine($"Error: {e.Message}");
                 }
-
-
             }
-
             return null;
-            //return new Song();
         }
     }
 }
